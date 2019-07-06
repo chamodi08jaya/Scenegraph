@@ -1,0 +1,146 @@
+<html>
+    <head>
+        <title>Car</title>
+        <style>
+            body{
+                margin:0;
+				overflow: hidden;
+            }
+
+            canvas{
+                width: 100%; 
+                height: 100%
+            }
+
+        </style>
+    </head>
+    <body>
+            
+            <script src="build/three.min.js"></script>
+            <script src="examples/js/controls/OrbitControls.js"></script>
+            <script>
+
+               
+                //scene
+                var scene = new THREE.Scene();
+
+                //camera
+                var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 20000);
+                camera.position.z=1500;
+                scene.add(camera);
+
+                //render
+                var renderer = new THREE.WebGLRenderer();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.body.appendChild(renderer.domElement);
+
+                 //draw scene
+                 function render(){
+                     renderer.render(scene,camera);
+                 };
+
+
+                 //gameLoop
+                 function update(){
+                        
+                        body.translateX( 2);
+                        cube.translateX( 2);
+                        Tyre1.translateX( 2 );
+                        Tyre2.translateX( 2 );
+                        Tyre3.translateX( 2 );
+                        Tyre4.translateX( 2 );
+                        
+                     };
+
+                function gameLoop(){
+                    requestAnimationFrame(gameLoop);
+                    update();
+                    render();
+                };
+
+               
+                const loader = new THREE.TextureLoader();
+	            const bgTexture = loader.load('sky.jpg');
+	            scene.background = bgTexture;
+
+
+
+                var geometry = new THREE.PlaneGeometry( 5000, 2000, 3200 );
+                var material = new THREE.MeshBasicMaterial( {map:new THREE.TextureLoader().load('road.jpg'),  side:THREE.DoubleSide} );
+                var plane = new THREE.Mesh( geometry, material );
+                plane.rotation.x +=11.04996;
+                plane.position.y=-190;
+                scene.add( plane );
+                
+                var geometry = new THREE.BoxGeometry( 450, 250, 400 );
+                var material = new THREE.MeshBasicMaterial( {map:new THREE.TextureLoader().load('wall.jpg'),  side:THREE.DoubleSide} );
+                var cube = new THREE.Mesh( geometry, material );
+                cube.position.x=-1000;
+                cube.position.z=-700;
+                scene.add( cube );
+
+
+                var geometry = new THREE.ConeGeometry( 300, 250, 32 );
+                var material = new THREE.MeshBasicMaterial( {map:new THREE.TextureLoader().load('tiles.jpg'),  side:THREE.DoubleSide} );
+                var cone = new THREE.Mesh( geometry, material );
+                cone.position.set(-1000,249,-700);
+                scene.add( cone );
+
+
+				var body_geometry = new THREE.BoxBufferGeometry(900, 150, 400 );
+				var body_material = new THREE.MeshBasicMaterial({map:new THREE.TextureLoader().load('blue.jpg'),  side:THREE.DoubleSide});
+				var body= new THREE.Mesh(body_geometry, body_material);
+				scene.add(body);
+
+                var cube_geometry = new THREE.BoxBufferGeometry(300, 150, 300 );
+	            var cube_material = new THREE.MeshBasicMaterial({map:new THREE.TextureLoader().load('blue.jpg'),  side:THREE.DoubleSide});
+	            var cube = new THREE.Mesh(cube_geometry, cube_material);
+	            cube.position.set(0,150,0);
+                scene.add(cube);
+               
+
+				
+				var Tyre1_geometry = new THREE.CylinderGeometry( 100, 100, 50, 32 );
+				var Tyre1_material =  new THREE.MeshBasicMaterial({map:new THREE.TextureLoader().load('tyre.jpg'), wireframe:false, side:THREE.DoubleSide});
+				var Tyre1 = new THREE.Mesh( Tyre1_geometry, Tyre1_material );
+				Tyre1.position.set(-220,-55,110);
+				scene.add(Tyre1);
+                Tyre1.rotateX(4.8);
+
+				var Tyre2 = new THREE.Mesh( Tyre1_geometry, Tyre1_material );
+				Tyre2.position.set(-220,-55,-110);
+				scene.add(Tyre2);
+                Tyre2.rotateX(4.8);
+
+				var Tyre3 = new THREE.Mesh( Tyre1_geometry, Tyre1_material );
+				Tyre3.position.set(220,-55,-110);
+				scene.add(Tyre3);
+                Tyre3.rotateX(4.8);
+
+				var Tyre4 = new THREE.Mesh( Tyre1_geometry, Tyre1_material );
+				Tyre4.position.set(220,-55,110);
+				scene.add(Tyre4);
+                Tyre4.rotateX(4.8);
+
+               
+
+                var controls = new THREE.OrbitControls( camera, renderer.domElement );
+			
+                gameLoop();
+            
+                //make animation responsive
+                window.addEventListener('resize',function(){
+                    var width=window.innerWidth;
+                    var height=window.innerHeight;
+                    renderer.setSize(width,height);
+                    camera.aspect=width/height;
+                    camera.updateProjectionMatrix();
+
+                 });
+
+                
+            </script>
+
+
+    </body>
+</html>
